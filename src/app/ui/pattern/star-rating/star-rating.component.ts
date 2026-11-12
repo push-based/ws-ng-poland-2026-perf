@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,17 +17,20 @@ const starsArray: number[] = new Array(numStars).fill(1);
       {{ tooltipText }}
     </span>
     <div class="stars">
-      <span
-        *ngFor="let fill of stars"
-        class="star"
-        [ngClass]="{
-          'star-half': fill === 0,
-          'star-empty': fill === -1,
-        }"
-        >★</span
-      >
+      @for (fill of stars; track fill) {
+        <span
+          class="star"
+          [ngClass]="{
+            'star-half': fill === 0,
+            'star-empty': fill === -1,
+          }"
+          >★</span
+        >
+      }
     </div>
-    <div class="rating-value" *ngIf="showRating">{{ rating }}</div>
+    @if (showRating) {
+      <div class="rating-value">{{ rating }}</div>
+    }
   `,
   styleUrls: [
     'star-rating.component.scss',
@@ -35,7 +38,7 @@ const starsArray: number[] = new Array(numStars).fill(1);
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [NgFor, NgClass, NgIf],
+  imports: [NgClass],
 })
 export class StarRatingComponent {
   range = range;

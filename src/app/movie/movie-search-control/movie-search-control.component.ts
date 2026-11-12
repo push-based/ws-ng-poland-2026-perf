@@ -1,4 +1,4 @@
-import { AsyncPipe, NgFor } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { of, Subject, switchMap } from 'rxjs';
@@ -17,18 +17,16 @@ import { MovieModel } from '../movie-model';
     />
     @if (movies$ | async; as movies) {
       <div class="results">
-        <button
-          class="movie-result"
-          (click)="selectMovie(movie)"
-          *ngFor="let movie of movies"
-        >
-          <img
-            [src]="movie.poster_path | movieImage"
-            width="35"
-            [alt]="movie.title"
-          />
-          <span>{{ movie.title }}</span>
-        </button>
+        @for (movie of movies; track movie) {
+          <button class="movie-result" (click)="selectMovie(movie)">
+            <img
+              [src]="movie.poster_path | movieImage"
+              width="35"
+              [alt]="movie.title"
+            />
+            <span>{{ movie.title }}</span>
+          </button>
+        }
       </div>
     }
   `,
@@ -58,7 +56,7 @@ import { MovieModel } from '../movie-model';
       padding: 0.5rem 1rem;
     }
   `,
-  imports: [NgFor, AsyncPipe, MovieImagePipe],
+  imports: [AsyncPipe, MovieImagePipe],
 })
 export class MovieSearchControlComponent
   implements ControlValueAccessor, AfterViewInit
