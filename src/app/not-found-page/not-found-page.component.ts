@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 
@@ -13,6 +13,7 @@ import { FastSvgComponent } from '@push-based/ngx-fast-svg';
       <a class="btn" routerLink="/list/popular">See popular</a>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     :host {
       width: 100%;

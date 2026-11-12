@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -20,6 +20,7 @@ import { MovieSearchControlComponent } from '../movie-search-control/movie-searc
   selector: 'my-movie-list',
   templateUrl: './my-movie-list.component.html',
   styleUrls: ['./my-movie-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     FormsModule,
     ReactiveFormsModule,

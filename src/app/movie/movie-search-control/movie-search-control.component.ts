@@ -1,5 +1,11 @@
 import { AsyncPipe } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, viewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { of, Subject, switchMap } from 'rxjs';
 
@@ -56,6 +62,7 @@ import { MovieModel } from '../movie-model';
       padding: 0.5rem 1rem;
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [AsyncPipe, MovieImagePipe],
 })
 export class MovieSearchControlComponent

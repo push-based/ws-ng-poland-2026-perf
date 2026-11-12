@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
@@ -15,6 +15,7 @@ import { SideDrawerComponent } from '../ui/component/side-drawer/side-drawer.com
   selector: 'app-shell',
   templateUrl: './app-shell.component.html',
   styleUrls: ['./app-shell.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     SideDrawerComponent,
     RouterLinkActive,

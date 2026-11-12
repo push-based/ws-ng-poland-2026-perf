@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 
@@ -14,6 +14,7 @@ import { MovieListComponent } from '../movie-list/movie-list.component';
       <movie-list [movies]="movies" />
     }
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MovieListComponent, AsyncPipe],
 })
 export class MovieSearchPageComponent {

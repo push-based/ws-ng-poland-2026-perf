@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 import { AppShellComponent } from './app-shell/app-shell.component';
@@ -6,6 +6,7 @@ import { AppShellComponent } from './app-shell/app-shell.component';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, AppShellComponent],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <app-shell>
       <router-outlet />

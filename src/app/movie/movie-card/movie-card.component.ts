@@ -6,6 +6,7 @@ import {
   inject,
   input,
   output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
 
@@ -51,6 +52,7 @@ import { MovieImagePipe } from '../movie-image.pipe';
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .movie-card {
       transition: box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;

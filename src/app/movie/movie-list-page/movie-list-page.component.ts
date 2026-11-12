@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { exhaustMap, Observable, scan, startWith, Subject } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { MovieListComponent } from '../movie-list/movie-list.component';
     <movie-list [movies]="movies" />
     <div (elementVisible)="paginate$.next()"></div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MovieListComponent, ElementVisibilityDirective],
 })
 export class MovieListPageComponent {

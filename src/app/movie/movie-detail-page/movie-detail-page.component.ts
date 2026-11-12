@@ -1,5 +1,5 @@
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 import { startWith, switchMap } from 'rxjs';
@@ -139,6 +139,7 @@ import { MovieListComponent } from '../movie-list/movie-list.component';
       }
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./movie-detail-page.component.scss'],
 })
 export class MovieDetailPageComponent {
