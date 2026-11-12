@@ -49,7 +49,7 @@ The perf-playground repository contains additional performance examples and exer
 
 ## 2. JS Playground Setup (Optional)
 
-The js-playground is a lightweight repository for JavaScript/TypeScript exercises. This is primarily used as a fallback for the [Event Loop exercise](./event-loop.md) if you encounter issues with StackBlitz.
+The js-playground is a lightweight repository for JavaScript/TypeScript exercises. This is primarily used as a fallback for the [Event Loop exercise](./tooling-event-loop.md) if you encounter issues with StackBlitz.
 
 ### Installation Steps
 
@@ -85,7 +85,7 @@ The js-playground is a lightweight repository for JavaScript/TypeScript exercise
 - Required for completing certain workshop tasks
 
 ### JS Playground
-- Alternative to StackBlitz for the [Event Loop exercise](./event-loop.md)
+- Alternative to StackBlitz for the [Event Loop exercise](./tooling-event-loop.md)
 - Use this if you experience issues with online code editors
 - Provides a local environment for JavaScript/TypeScript experiments
 

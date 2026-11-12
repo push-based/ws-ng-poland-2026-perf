@@ -25,15 +25,20 @@ Identify the bundle being loaded for the detail page and note the size of the bu
 
 ## Use Defer
 
-Open the MovieDetailPageComponent template and locate where MovieListComponent is used in the template.
+Open the `MovieDetailPageComponent` template (`src/app/movie/movie-detail-page/movie-detail-page.component.ts`) and
+locate where `MovieListComponent` (`<movie-list>`, the "Recommended Movies" section) is used in the template.
 Use the defer block to lazy load the component.
 
 <details>
   <summary>Defer MovieListComponent</summary>
 
 ```angular17html
-@defer {
-  <movie-list [movies]="recommendations.results" />
+@if (recommendations$ | async; as recommendations) {
+  @defer {
+    <movie-list [movies]="recommendations" />
+  }
+} @else {
+  <div class="loader"></div>
 }
 ```
 

@@ -17,10 +17,9 @@ If not already the case, insert the `dirty-checks` component into the `MovieCard
   <summary>MovieCardComponent</summary>
 
 ```html
-<!--movie-card.component.html-->
+<!-- src/app/movie/movie-card/movie-card.component.ts (template) -->
 
-<div class="movie-card"
-     [tilt]="40">
+<div class="movie-card">
   <dirty-check />
   <!--  the template-->
 </div>
@@ -32,19 +31,18 @@ If not already the case, insert the `dirty-checks` component into the `MovieCard
 Taking a look at the dirty-check counter in the `MovieCardComponent` when interacting with the `tilt` directive reveals
 potential for optimization here.
 
-For the sake of better visual feedback (and dx for this exercise), please turn off `ChangeDetectionStrategy.OnPush` in the `AppComponent`
+For the sake of better visual feedback (and dx for this exercise), please turn off `ChangeDetectionStrategy.OnPush` in the `AppComponent` (back to `ChangeDetectionStrategy.Eager`)
 
 <details>
   <summary>AppComponent Cd Default</summary>
 
 ```ts
-// app.component.ts
+// src/app/app.component.ts
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  // ...
+  changeDetection: ChangeDetectionStrategy.Eager, // was: OnPush
 })
 export class AppComponent {}
 ```
@@ -238,7 +236,7 @@ import { fromEvent } from 'rxjs-zone-less';
 </details>
 
 Serve the application, and interact with the `TiltDirective`. You should note that the `AppComponent` isn't dirty checked anymore,
-although it is configured with `ChangeDetectionStrategy.Default`.
+although it is configured with `ChangeDetectionStrategy.Eager`.
 
 Congratulations :-)
 

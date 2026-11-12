@@ -3,19 +3,28 @@
 In this exercise we will focus on basic runtime optimizations in angular applications by using our knowledge about
 the `ChangeDetection` system in angular. Before we can do any optimization, let's get a picture of the current state.
 
+> [!NOTE]
+> Since Angular 22, `OnPush` is the default `ChangeDetectionStrategy` for new components. The app's own components
+> (`AppComponent`, `AppShellComponent` and everything under `src/app/movie`) are pinned to
+> `ChangeDetectionStrategy.Eager` (the former `Default`): they are checked every time any action happens on the page.
+> The design system components under `src/app/ui` already use `OnPush`. The app also still runs with zone.js (`provideZoneChangeDetection()` in `src/main.ts`).
+
 We will create a little helper component that will assist us to debug change detection cycles in our application.
 
 ## 1. Create a dirty checks component
 
-Your task is to create a `DirtyChecksComponent` which should serve as a performance debug utility.
+Your task is to create a `DirtyCheckComponent` which should serve as a performance debug utility.
 Whenever the application renders, it should increase a number in its template.
 
-Create it in the `/src/app/shared` folder.
+Create it in the `src/app/shared` folder.
 
 ```bash
 # generate component
-ng g c shared/dirty-check
+npx ng g c shared/dirty-check --type=component
 ```
+
+This creates `src/app/shared/dirty-check/dirty-check.component.ts` (a plain `ng g c shared/dirty-check` would create
+`dirty-check.ts` with a class named `DirtyCheck`).
 
 The component should have a `checked: Signal<number>` as a field and bind it in the template.
 
@@ -26,7 +35,6 @@ import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'dirty-check',
-  standalone: true,
   template: ` <code class="dirty-checks">({{ checked() }})</code> `,
   styles: [
     `
@@ -59,9 +67,9 @@ Whenever the `ngDoCheck` lifecycle hook runs, just increase the value of the sig
     <summary>Dirty Checking</summary>
 
 ```typescript
-// src/app/shared/dirty-check.component.ts
+// src/app/shared/dirty-check/dirty-check.component.ts
 
-import {Component, DoCheck} from "@angular/core";
+import { Component, DoCheck, signal } from '@angular/core';
 
 @Component(/**/)
 export class DirtyCheckComponent implements DoCheck {
@@ -88,12 +96,12 @@ Add import in `app.component.ts` and include it in the imports section
 ```typescript
 // Include dirty checks component import here.
 
-import {DirtyCheckComponent} from "./shared/dirty-check/dirty-check.component";
+import { DirtyCheckComponent } from './shared/dirty-check/dirty-check.component';
 
 @Component({
-    selector: 'app-root',
-    standalone: true,                                // 👇️
-    imports: [RouterOutlet, AppShellComponent, DirtyCheckComponent],
+  selector: 'app-root',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [RouterOutlet, AppShellComponent, DirtyCheckComponent], // 👈️ add DirtyCheckComponent
   // ...
 })
 ```
@@ -112,14 +120,19 @@ template: `
 
 ### 3.2 Use in `MovieListPageComponent` & `MovieCardComponent`
 
-Repeat the steps done in `AppComponent`, but for more components. You can choose to put it everywhere if you like :).
+Repeat the steps done in `AppComponent`, but for more components:
+
+* `MovieListPageComponent` (`src/app/movie/movie-list-page/movie-list-page.component.ts`): put `<dirty-check />` above `<movie-list>`
+* `MovieCardComponent` (`src/app/movie/movie-card/movie-card.component.ts`): put `<dirty-check />` as the first child of `.movie-card`
+
+You can choose to put it everywhere if you like :).
 
 ![in-usage](./images/change-detection/dirty-checks-in-use.PNG)
 
 ## 4. Evaluate initial state of the application
 
-Serve your app and try to interact with the page. You will see counter always go up.
-Perform different kinds of actions and note how the counter will increase by different amounts.
+Serve your app (`npm start`) and try to interact with the page. You will see the counters always go up.
+Perform different kinds of actions and note how the counters increase by different amounts.
 
 * navigate
   * between categories
@@ -127,3 +140,4 @@ Perform different kinds of actions and note how the counter will increase by dif
 * tilt
 * switch dark/light mode
 
+Every interaction bumps every counter: the components are `Eager`, and zone.js ticks the whole tree.

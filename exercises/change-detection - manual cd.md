@@ -3,16 +3,17 @@
 In this exercise we will learn how to use the `ChangeDetectorRef` to manually 
 inform angular about changes when needed.
 
-> [!NOTICE]
-> **REMEMBER** the bug where you have to just _click or hover something_ in the app until your changes are displayed
-> on the screen? We are here to solve it now :).
+> [!NOTE]
+> **REMEMBER** the bug where you have to just _click something_ in the app until your changes are displayed
+> on the screen (introduced with `OnPush` in the [OnPush exercise](./change-detection%20-%20OnPush.md))?
+> We are here to solve it now :).
 
 ## 1. Fix `MovieListPageComponent`
 
 This time, we are not missing out an NgZone tick, but we need to inform the framework
 about a change that needs to get detected.
 
-Go to the `movie-list-page.component.ts`:
+Go to the `MovieListPageComponent` (`src/app/movie/movie-list-page/movie-list-page.component.ts`):
 * inject `ChangeDetectorRef`
 * use `markForCheck` after setting the `movies` value.
 
@@ -22,7 +23,7 @@ Go to the `movie-list-page.component.ts`:
 
 ```ts
 
-// movie-list-page.component.ts
+// src/app/movie/movie-list-page/movie-list-page.component.ts
 
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -55,9 +56,9 @@ constructor() {
 
 ## 2. Fix `TiltDirective`
 
-Also the tilt effect doesn't work again.
+Also the tilt effect doesn't work again (the `MovieCardComponent` is `OnPush`).
 
-Go to the `tilt.directive.component.ts`:
+Go to the `TiltDirective` (`src/app/shared/tilt.directive.ts`):
 * inject `ChangeDetectorRef`
 * use `markForCheck` after setting the `rotate`
 
@@ -66,7 +67,7 @@ Go to the `tilt.directive.component.ts`:
 
 ```ts
 
-// tilt.directive.ts
+// src/app/shared/tilt.directive.ts
 
 export class TiltDirective {
 

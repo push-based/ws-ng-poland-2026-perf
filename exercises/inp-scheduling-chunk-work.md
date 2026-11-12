@@ -19,11 +19,11 @@ Go ahead and do an analysis of the bootstrap performance of the application.
 Serve the movies app and open your browser on the served `host:port`.
 
 ```bash
-ng serve
+npm start
 
 # or
 
-npm run start
+npx ng serve
 ```
 
 Also open the `Performance Tab` of the devtools.
@@ -59,15 +59,17 @@ of our application by reducing the work of the initial chunk of work.
 
 ### 1.2: Introduce rxLet
 
-We can do so by literally just adding a simple `structural directive` to the `app-shell.component.html`.
+We can do so by literally just adding a simple `structural directive` to the `src/app/app-shell/app-shell.component.html`.
 
 Introduce the `rxLet` directive on the `ui-side-drawer` element with an empty `[]` as input.
+Don't forget to import `RxLet` (`import { RxLet } from '@rx-angular/template/let'`) in the `imports` of the
+`AppShellComponent`.
 
 <details>
   <summary>Show Help</summary>
 
 ```html
-<!-- app-shell.component.html -->
+<!-- src/app/app-shell/app-shell.component.html -->
 
 <ui-side-drawer
   [opened]="sideDrawerOpen"
@@ -135,7 +137,7 @@ Open the dev tools again and do a new performance recording.
 You don't need to run `Start profiling and reload page` this time, it is sufficient to simply
 start a recording and navigate around the application.
 
-After doing one of the approaches before, search for the task where `ngFor` creates the nodes
+After doing one of the approaches before, search for the task where `@for` creates the nodes
 for the `movie-cards` in the `flamecharts`.
 
 It is probably connected to an `XHR Load` event and causes lots of `refreshView` calls.
@@ -151,13 +153,15 @@ With your knowledge about scheduling the identified pattern should already trigg
 about what we want to do with this one here :).
 You should notice that there is a lot of repeated work done in a single task which could easily be split up.
 
-Let's do so by switching from `@for` to `*rxFor` in the `movie-list.component.html` template.
+Let's do so by switching from `@for` to `*rxFor` in the template of the `MovieListComponent`
+(`src/app/movie/movie-list/movie-list.component.ts`, inline template). Import `RxFor` from
+`@rx-angular/template/for`.
 
 <details>
   <summary>Show Help</summary>
 
 ```html
-<!--movie-list.component.html-->
+<!-- src/app/movie/movie-list/movie-list.component.ts (template) -->
 
 <movie-card
   *rxFor="let movie of movies(); trackBy: 'id'; let $index = index"
@@ -205,7 +209,7 @@ Well done! You have successfully mastered the single-thread :-)
 
 ## 3. Bonus: Introduce `rxFor` to genre list
 
-Just as you did before, replace `ngFor` with the `rxFor` directive in the `app-shell.component.html` template
-at the place where the `genre$` data is rendered.
+Just as you did before, replace `@for` with the `rxFor` directive in the `app-shell.component.html` template
+at the place where the `genres$` data is rendered.
 
 Make sure to measure the result!

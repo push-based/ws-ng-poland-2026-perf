@@ -11,14 +11,16 @@ if the results are used or not.
 
 ![requests-not-cancelled.png](./images/network/requests-not-cancelled.png)
 
-As a first step, refactor the currently nested subscriptions in the `MovieListPageComponent` to a single stream by using the `switchMap` operator.
+As a first step, refactor the currently nested subscriptions in the `MovieListPageComponent`
+(`src/app/movie/movie-list-page/movie-list-page.component.ts`) to a single stream by using the `switchMap` operator.
 
 <details>
   <summary>MovieListPageComponent refactor nested subscriptions</summary>
 
 ```ts
 
-// movie-list-page.component.ts
+// src/app/movie/movie-list-page/movie-list-page.component.ts
+// (add `switchMap` to the rxjs import)
 
  this.activatedRoute.params.pipe(
      switchMap(params => {

@@ -19,17 +19,16 @@ element created for each search result.
   <summary>Apply DirtyChecks to MovieSearchControlComponent</summary>
 
 ```html
-<!-- movie-search-control.component.html -->
+<!-- src/app/movie/movie-search-control/movie-search-control.component.ts (template) -->
 
-<button class="movie-result"
-        (click)="selectMovie(movie)"
-        *ngFor="let movie of movies;">
-  
-  <dirty-check></dirty-check>
-  
-  <img [src]="movie.poster_path | movieImage" width="35" [alt]="movie.title">
-  <span>{{ movie.title }}</span>
-</button>
+@for (movie of movies; track movie) {
+  <button class="movie-result" (click)="selectMovie(movie)">
+    <dirty-check />
+
+    <img [src]="movie.poster_path | movieImage" width="35" [alt]="movie.title" />
+    <span>{{ movie.title }}</span>
+  </button>
+}
 ```
 
 </details>
@@ -51,43 +50,37 @@ You should see the dom elements getting actually destroyed.
 The task is to improve this situation by letting angular know how to identify objects and update the template instead of
 re-creating it.
 
-Create a `trackMovie: TrackByFunction` function in `MovieSearchComponent` which returns the `movie.id`. 
-Apply it as input parameter to the `*ngFor`
-
-[TrackByFunction](https://angular.io/api/core/TrackByFunction)
-
-or convert the `*ngFor` to use the new control flow syntax `@for` which allows you to provide a `track` property directly in the template.
+The `@for` block of the `MovieSearchControlComponent` currently uses `track movie`: it identifies items by object
+identity, and every search response contains new objects. Change the `track` expression so that it identifies a movie
+by its `id`: `track movie.id` (the `track` expression can also call a function, e.g. `track trackMovie($index, movie)`
+with a `trackMovie: TrackByFunction<MovieModel>` in the component).
 
 <details>
-    <summary>TrackByFunction solution</summary>
-
-```ts
-// movie-search-control.component.ts
-trackMovie = (i: number, movie: MovieModel) => movie.id;
-```
+    <summary>Solution: track by id</summary>
 
 ```html
-<!-- movie-search-control.component.html -->
-
-<button class="movie-result"
-        (click)="selectMovie(movie)"
-        *ngFor="let movie of movies; trackBy: trackMovie">
-    <!-- the template -->
-</button>
-```
-
-</details>
-
-<details>
-    <summary>New @for syntax solution</summary>
-
-```html
-<!-- movie-search-control.component.html -->
+<!-- src/app/movie/movie-search-control/movie-search-control.component.ts (template) -->
 @for (movie of movies; track movie.id) {
   <button class="movie-result"
           (click)="selectMovie(movie)">
     <!-- the template -->
   </button>
+}
+```
+
+</details>
+
+<details>
+    <summary>Alternative: track function</summary>
+
+```ts
+// src/app/movie/movie-search-control/movie-search-control.component.ts
+trackMovie: TrackByFunction<MovieModel> = (i, movie) => movie.id;
+```
+
+```html
+@for (movie of movies; track trackMovie($index, movie)) {
+  <!-- the template -->
 }
 ```
 
@@ -109,7 +102,6 @@ Since we have the same kind of issue in our `MovieSearchPageComponent`, lets go 
   * you probably need to dig into `MovieListComponent` since this is the place where the iteration happens
 * Repeat the interaction process, but perform it on the global movie search (top widget)
 * Inspect the counter & `devtools > Elements` tab
-* create a `TrackByFunction` and apply it to the `*ngFor` or use the new `@for` syntax
+* make sure the `@for` identifies the movies by `id` (`track movie.id`)
 * repeat the interaction
 
-If you like, you can use the utility function `trackByProp` from `shared/utils/track-by.ts`

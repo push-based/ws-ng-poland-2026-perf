@@ -3,12 +3,15 @@
 This exercise is here to showcase how powerful signal change detection is. We are not quite at the level
 we get with signal components, but we are close to it already.
 
+It builds on the [OnPush exercise](./change-detection%20-%20OnPush.md): `MovieCardComponent` is `OnPush`, and the
+`<dirty-check />` counters from the [Dirty Check exercise](./change-detection%20-%20Dirty%20Check.md) are in place.
+
 ## TiltDirective signal CD
 
 We are going to slightly adjust the `TiltDirective` in order to make use of the new signal based
 change detection.
 
-Open the `TiltDirective` and..
+Open the `TiltDirective` (`src/app/shared/tilt.directive.ts`) and..
 
 **1. Transform `rotate` into a signal**
 
@@ -19,7 +22,10 @@ Update all the code that updates the `rotate` field to use the signal `set` or `
   <summary>TiltDirective rotate signal</summary>
 
 ```diff
-// tilt.directive.ts
+// src/app/shared/tilt.directive.ts
+
+- import { Directive, ElementRef, input } from '@angular/core';
++ import { Directive, ElementRef, input, signal } from '@angular/core';
 
 - rotate = 'rotate(0deg)';
 + rotate = signal('rotate(0deg)');
@@ -42,14 +48,13 @@ In order for everything to work, we need to call the signal in the host binding.
   <summary>TiltDirective use signal in {host} decorator style</summary>
 
 ```ts
-// tilt.directive.ts
+// src/app/shared/tilt.directive.ts
 
 @Directive({
   selector: '[tilt]',
-  standalone: true,
   host: {
-    '[style.transform]': 'rotate()' // <-- update this line
-  }
+    '[style.transform]': 'rotate()', // <-- update this line
+  },
 })
 export class TiltDirective {
   //...
@@ -63,13 +68,15 @@ export class TiltDirective {
 **3. Remove markForCheck call**
 
 Because we are using signals, we don't need to call `markForCheck` anymore. Change detection should just work.
+(Only if you added it in the [manual change detection exercise](./change-detection%20-%20manual%20cd.md) — otherwise
+there is nothing to remove.)
 
 
 <details>
   <summary>TiltDirective remove markForCheck</summary>
 
 ```diff
-// tilt.directive.ts
+// src/app/shared/tilt.directive.ts
 
 @Directive(...)
 export class TiltDirective {
@@ -77,7 +84,7 @@ export class TiltDirective {
     // ...
     merge(rotate$, reset$).subscribe((rotate) => {
       this.rotate.set(rotate);
--     this.cdr.markForCheck(); // <-- remove this line
+-     this.cdRef.markForCheck(); // <-- remove this line
     });
   }
 }
@@ -95,8 +102,11 @@ Great! Please take a look at your application and be amazed by the change detect
 
 #### Explanation:
 - The TiltDirective uses a signal to update the `rotate` value
-- Because nothing is being marked for check, the `AppComponent` is not dirty checked (the counter doesn't increase anymore)
-- The `MovieCardComponent` is refreshed (the counter increases) because a signal was updated
+- The hovered `MovieCardComponent` is refreshed (the counter increases) because a signal was updated, its `OnPush`
+  siblings are skipped (Local Change Detection)
+- The parents are still checked as long as they are `Eager` (zone.js ticks the whole tree on every event). Only the
+  components you switched to `OnPush` (e.g. `AppComponent`) stop counting. That changes for everything when we go
+  [zoneless](./change-detection%20-%20zoneless.md).
 - 🎉 This means we can refresh child components without refreshing any parent component (Local Change Detection)!
 
 ![signals-cd.gif](images/change-detection/signals-cd.gif)

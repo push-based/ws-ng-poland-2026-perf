@@ -20,20 +20,22 @@ export const serverRoutes: ServerRoute[] = [];
 </details>
 
 ### 2. Enable Server Route Configuration in the server providers
-Go to `src/app/app.config.server.ts` and add the `serverRoutes` configuration using `provideServerRoutesConfig` provider function.
+Go to `src/app/app.config.server.ts` and add the `serverRoutes` configuration using the `withRoutes` feature of
+`provideServerRendering` (import `provideServerRendering` from `@angular/ssr` instead of `@angular/platform-server`).
 
 
 <details>
   <summary>serverRoutes Config</summary>
 
 ```diff
-+ import { provideServerRoutesConfig } from '@angular/ssr';
+- import { provideServerRendering } from '@angular/platform-server';
++ import { provideServerRendering, withRoutes } from '@angular/ssr';
 + import { serverRoutes } from './app.routes.server';
 
 const serverConfig: ApplicationConfig = {
   providers: [
-    provideServerRendering(),
-+    provideServerRoutesConfig(serverRoutes),
+-    provideServerRendering(),
++    provideServerRendering(withRoutes(serverRoutes)),
   ],
 };
 ```

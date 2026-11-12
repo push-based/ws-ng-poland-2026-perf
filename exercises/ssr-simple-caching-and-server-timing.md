@@ -7,8 +7,12 @@ In order to measure the impact of the cache, we will use the Server Timing API.
 
 ### 1.1 Install the `server-timing` package:
 
+> [!NOTE]
+> `server-timing` is already a dependency of this project (`package.json`), so this step is already done for you
+> (run `npm install` if `node_modules/server-timing` is missing).
+
 ```bash
-npm install server-timing --force
+npm install server-timing
 ```
 
 ### 1.2 Use the `server-timing` package in the `server.ts` file
@@ -25,7 +29,7 @@ export function app(): express.Express {
   server.get('**', (req, res, next) => {
 +   res.startTime('SSR', 'Total SSR time');
     angularApp
-      .render(req)
+      .handle(req)
       .then((response) => {
 -        return response ? writeResponseToNodeResponse(response, res) : next();
 
@@ -95,7 +99,7 @@ server.get('**', (req, res, next) => {
   } else {
     res.startTime('SSR', 'Total SSR time');
     angularApp
-      .render(req)
+      .handle(req)
       .then((response) => {
         if (response) {
           // 👇 add the response to the cache (add a clone to avoid mutating the original response)

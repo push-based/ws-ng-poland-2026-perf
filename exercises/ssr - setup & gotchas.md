@@ -26,7 +26,7 @@ You should find that the html document is almost identical the `index.html` loca
 > This step is already done for you, so SKIP this step.
 
 ```bash
-ng add @angular/ssr
+npx ng add @angular/ssr
 ```
 
 ## 1. Enable SSR in the app
@@ -38,7 +38,7 @@ ng add @angular/ssr
 ```json
 {
   "build": {
-    "builder": "@angular-devkit/build-angular:application",
+    "builder": "@angular/build:application",
     "options": {
       // ... other options
       "outputMode": "server",
@@ -52,7 +52,7 @@ ng add @angular/ssr
 }
 ```
 
-You should now be able to run the application with `ng serve` and the app will be server side rendered.
+You should now be able to run the application with `npm start` and the app will be server side rendered.
 
 > [!IMPORTANT]  
 > If you want to close the dev server, press `Ctrl + D` in the terminal. (known issue)
@@ -74,14 +74,17 @@ ERROR ReferenceError: document is not defined
 This tells us that the `document` is not defined in the server environment, so we need to not run that code on the server.
 
 Fix it by running it only in the browser environment using the function that we learned in the presentation.
+The code is in `src/app/shared/cdk/element-visibility/element-visibility.directive.ts`.
 
 <details>
   <summary>Run code only in browser environment</summary>
 
 ```ts
+// src/app/shared/cdk/element-visibility/element-visibility.directive.ts
+
 import { afterNextRender } from '@angular/core';
 
-@Directive()
+@Directive({ selector: '[elementVisible]' })
 export class ElementVisibilityDirective {
   constructor() {
     afterNextRender(() => { // 👈️👈️👈️
@@ -113,43 +116,55 @@ ReferenceError: window is not defined
 As we learned in the presentation, sometimes third party libraries require additional configuration to work on the server.
 In our case, we need to configure the ngx-fast-svg library to work on the server.
 
-Create a SSR load strategy for the `ngx-fast-svg` library and configure it to work on the server.
+Create a SSR load strategy for the `ngx-fast-svg` library and configure it to work on the server
+(in `src/app/app.config.server.ts`).
 
 <details>
   <summary>Configure the ngx-fast-svg library</summary>
 
 ```ts
-import { isDevMode } from '@angular/core';
-import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
-import { Observable, of } from 'rxjs';
+// src/app/app.config.server.ts
+
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
+import { ApplicationConfig, Injectable, isDevMode, mergeApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/platform-server';
+import { provideFastSVG, SvgLoadStrategy } from '@push-based/ngx-fast-svg';
+import { map, Observable, of } from 'rxjs';
+
+import { appConfig } from './app.config';
+
 @Injectable()
 export class SvgLoadStrategySsr implements SvgLoadStrategy {
-  load(url: string): Observable<string> {
-    let iconPath: string;
-    if (isDevMode()) {
-      // In dev mode, we load the SVG from the file system
-      iconPath = join(process.cwd(), 'src', url);
-    } else {
-      // In production, we load the SVG from the build folder
-      iconPath = join(process.cwd(), 'dist', 'ws-ng-perf', 'browser', url);
-    }
-    return of(readFileSync(iconPath, 'utf8'));
+  // `config` maps the icon url to the location on the file system
+  config(url: string): Observable<string> {
+    return of(
+      isDevMode()
+        ? // In dev mode, we load the SVG from the source folder
+          join(process.cwd(), 'src', url)
+        : // In production, we load the SVG from the build folder
+          join(process.cwd(), 'dist', 'ws-ng-perf', 'browser', url),
+    );
+  }
+
+  // `load` reads the file instead of fetching it
+  load(iconPath$: Observable<string>): Observable<string> {
+    return iconPath$.pipe(map((iconPath) => readFileSync(iconPath, 'utf8')));
   }
 }
 
-
 const serverConfig: ApplicationConfig = {
   providers: [
-    // ... removed for brevity
+    provideServerRendering(),
     provideFastSVG({ // 👈️️ configure the ngx-fast-svg library
       svgLoadStrategy: SvgLoadStrategySsr, // 👈️ add the SSR load strategy
       url: (name: string) => `assets/svg-icons/${name}.svg`,
     }),
   ],
 };
+
+export const config = mergeApplicationConfig(appConfig, serverConfig); // unchanged
 ```
 
 </details>
@@ -169,13 +184,17 @@ Fix the issue, by using the same approach we followed in the first step.
   <summary>Fix the issue</summary>
 
 ```ts
+// src/app/ui/component/dark-mode-toggle/dark-mode-toggle.component.ts
+
 import { afterNextRender } from '@angular/core';
 
 @Component(/*...*/)
-export class DarkModeToggleComponent {
+export class DarkModeToggleComponent extends RxState<{ isLightTheme: boolean }> {
   constructor() {
-    // ... removed for brevity
+    super();
+    this.set({ isLightTheme: true });
 
+    // `toggleTheme` accesses `window`: only run it in the browser (replaces the `this.hold(...)` call)
     afterNextRender(() => {
       this.hold(this.isLightTheme$, this.toggleTheme);
     });
