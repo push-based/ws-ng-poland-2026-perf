@@ -1,10 +1,10 @@
 import { AsyncPipe } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   viewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { of, Subject, switchMap } from 'rxjs';

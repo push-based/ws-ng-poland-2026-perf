@@ -1,12 +1,12 @@
 import { UpperCasePipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
   inject,
   input,
   output,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { fromEvent } from 'rxjs';
 

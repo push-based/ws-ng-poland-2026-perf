@@ -10,7 +10,6 @@ import {
   styleUrls: ['./hamburger-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.Emulated,
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   host: {
     class: 'hamburger-button',
   },

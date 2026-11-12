@@ -1,8 +1,8 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   input,
   output,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FastSvgComponent } from '@push-based/ngx-fast-svg';
