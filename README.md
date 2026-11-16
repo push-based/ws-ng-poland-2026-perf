@@ -51,7 +51,6 @@ _No exercises — make sure [Project Setup](./exercises/project%20setup.md) is d
 
 - [Tooling: Performance Analysis & Flame Charts](./exercises/performance-tab-flame-charts.md)
 - [Tooling: JS Event Loop](./exercises/tooling-event-loop.md)
-- [Tooling: Sources Tab](./exercises/sources%20tab.md) _(if you have time)_
 
 ### Block 3: Master the Single Thread & AI-Assisted Performance Engineering
 
