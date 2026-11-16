@@ -18,6 +18,5 @@ export const appConfig: ApplicationConfig = {
       url: (name: string) => `assets/svg-icons/${name}.svg`,
       defaultSize: '12',
     }),
-    // provideClientHydration(withEventReplay()),
   ],
 };
