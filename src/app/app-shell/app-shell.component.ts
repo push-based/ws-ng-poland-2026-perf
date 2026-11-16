@@ -6,6 +6,7 @@ import { FastSvgComponent } from '@push-based/ngx-fast-svg';
 
 import { MovieService } from '../movie/movie.service';
 import { TrackingService } from '../shared/tracking.service';
+import { WorkComponent } from '../shared/work.component';
 import { DarkModeToggleComponent } from '../ui/component/dark-mode-toggle/dark-mode-toggle.component';
 import { HamburgerButtonComponent } from '../ui/component/hamburger-button/hamburger-button.component';
 import { SearchBarComponent } from '../ui/component/search-bar/search-bar.component';
@@ -26,6 +27,7 @@ import { SideDrawerComponent } from '../ui/component/side-drawer/side-drawer.com
     FormsModule,
     DarkModeToggleComponent,
     AsyncPipe,
+    WorkComponent,
   ],
 })
 export class AppShellComponent {

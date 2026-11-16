@@ -60,6 +60,9 @@ npm start
 
 Network & Images
 
+> Measure the network exercises with the production build (`npm run start:prod`) and `Fast 4G` network + `4x` CPU throttling.
+> The dev server ships several MB of unbundled JavaScript, which hides most network improvements.
+
 - [Network: Preconnect](./exercises/network-resource-hints-preconnect.md)
 - [Network: Preload & Prefetch](./exercises/network-resource-hints-preload-prefetch.md)
 - [Network: Lazy Loading Resources](./exercises/network-lazy-loading.md)
@@ -70,7 +73,9 @@ Network & Images
 CSS & DOM
 
 - [CSS: Forced Reflow & ResizeObserver](./exercises/css%20-%20resizeobserver.md)
+- [CSS: Forced Reflow & IntersectionObserver](./exercises/css%20-%20intersection-observer.md)
 - [CSS: Compositor-only Animations](./exercises/css%20-%20compositor-only-animations.md)
+- [CSS: Layout Thrashing](./exercises/css%20-%20layout-trashing.md) _(self-study, runs in [perf-playground](./exercises/additional-projects.md))_
 - [CSS: contain](./exercises/css%20-%20containment.md)
 - [CSS: content-visibility](./exercises/css%20-%20content-visibility.md)
 

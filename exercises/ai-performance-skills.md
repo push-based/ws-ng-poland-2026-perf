@@ -233,3 +233,14 @@ call stack) and one proposed fix each. Do not change code.
 main agent call it as a sub-agent.
 
 </details>
+
+## Before you go on: reset the app
+
+The Network exercises later today start from the original app — and the agent's fixes are exactly their solutions.
+Reset the app code to the state you cloned — this works whether you committed, stashed or did nothing:
+
+```bash
+git checkout origin/main -- src
+```
+
+Want to keep the agent's fix? Commit it on a branch first: `git switch -c ai-fix && git commit -am "ai fix" && git switch main`.

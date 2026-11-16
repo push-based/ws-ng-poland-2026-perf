@@ -26,8 +26,7 @@ In theory this improves the LCP of our application — in practice the effect is
 
 
 > [!IMPORTANT]
-> Use the dev server (`npm start`): the production build inlines the Google Fonts CSS and preconnects to
-> `fonts.gstatic.com` by itself.
+> Measure with the production build (`npm run start:prod`).
 
 The Movies app is based on [The Movie Database (TMDB)](https://www.themoviedb.org/) API.
 We know for sure that users will need: 

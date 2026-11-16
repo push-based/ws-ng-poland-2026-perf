@@ -127,7 +127,7 @@ Get rid of the `| movieImage` pipe (also remove `MovieImagePipe` from the `impor
   [alt]="movie().title"
   [ngSrc]="movie().poster_path || '/assets/images/no_poster_available.jpg'"
   ngSrcset="154w, 185w, 300w, 342w, 500w, 780w"
-  sizes="(max-width: 500px) 75vw, 20vw"
+  sizes="(max-width: 500px) 75vw, 25vw"
   width="100"
   height="150"
   [priority]="index() < 1"
@@ -143,3 +143,42 @@ Great! Measure the impact:
 * `toggle device toolbar`
 * refresh the app
 * start with either a small screen or large screen and adjust its size (and DPR) to test the outcome
+
+### 2.2 Keep the LCP preload in sync
+
+Remember the hardcoded LCP preload from the [preload exercise](network-resource-hints-preload-prefetch.md)? It
+still points to the `w780` poster. Check the network tab: the LCP card now reuses that big preloaded file, and the
+`srcset` you just added doesn't apply to it.
+
+A preload has to describe exactly what the `<img>` will request. Turn it into a responsive preload with the same
+widths and `sizes` as the image: `imagesrcset` and `imagesizes`.
+
+<details>
+  <summary>Responsive preload</summary>
+
+```html
+<!-- src/index.html, replace the w780 preload. Use the poster path of your LCP image -->
+<link
+  rel="preload"
+  as="image"
+  fetchpriority="high"
+  imagesrcset="
+    https://image.tmdb.org/t/p/w154/{{ poster }}.jpg 154w,
+    https://image.tmdb.org/t/p/w185/{{ poster }}.jpg 185w,
+    https://image.tmdb.org/t/p/w300/{{ poster }}.jpg 300w,
+    https://image.tmdb.org/t/p/w342/{{ poster }}.jpg 342w,
+    https://image.tmdb.org/t/p/w500/{{ poster }}.jpg 500w,
+    https://image.tmdb.org/t/p/w780/{{ poster }}.jpg 780w
+  "
+  imagesizes="(max-width: 500px) 75vw, 25vw"
+/>
+```
+
+</details>
+
+Measure again: the LCP poster is requested once, with `High` priority, in the size the `srcset` picks.
+
+> [!TIP]
+> Try `20vw` instead of `25vw` (in both places) on a 1280px wide window. The browser picks `w300` for a 308px wide
+> card, the image is upscaled, and Chrome counts it as smaller for LCP: a later `w342` poster becomes the LCP element.
+> A wrong `sizes` value is enough to make the preload useless.

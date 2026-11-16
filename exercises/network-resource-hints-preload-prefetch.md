@@ -7,7 +7,7 @@ This allows the browser to download critical information right away.
 This will ultimately improve the LCP & sometimes CLS for our application.
 
 > [!IMPORTANT]
-> Use the dev server (`npm start`): the production build inlines the Google Fonts CSS with different font URLs.
+> Measure with the production build (`npm run start:prod`) and `Fast 4G` + `4x` CPU throttling.
 
 ## 0. Measure the current state
 

@@ -6,7 +6,7 @@ This exercise will guide you through setting up two additional GitHub repositori
 
 During the workshop, you may need access to these additional repositories:
 
-1. **perf-playground** (Required) - Additional performance examples and exercises
+1. **perf-playground** (Optional, self-study) - needed only for the [Layout Thrashing](./css%20-%20layout-trashing.md) exercise
 2. **js-playground** (Optional) - Lightweight JavaScript/TypeScript playground for specific exercises
 
 ## Prerequisites
@@ -17,9 +17,9 @@ During the workshop, you may need access to these additional repositories:
   - `npm > 10`
 - Basic familiarity with command line operations
 
-## 1. Perf Playground Setup (Required)
+## 1. Perf Playground Setup (Optional, self-study)
 
-The perf-playground repository contains additional performance examples and exercises that we'll reference throughout the workshop.
+The perf-playground repository contains additional performance examples. In this workshop it is only used by the self-study [Layout Thrashing](./css%20-%20layout-trashing.md) exercise.
 
 ### Installation Steps
 
@@ -80,9 +80,8 @@ The js-playground is a lightweight repository for JavaScript/TypeScript exercise
 ## When to Use These Projects
 
 ### Perf Playground
-- Referenced throughout various performance exercises
+- Used by the self-study [Layout Thrashing](./css%20-%20layout-trashing.md) exercise
 - Contains additional examples and demos
-- Required for completing certain workshop tasks
 
 ### JS Playground
 - Alternative to StackBlitz for the [Event Loop exercise](./tooling-event-loop.md)

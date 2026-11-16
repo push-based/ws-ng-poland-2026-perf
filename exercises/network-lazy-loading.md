@@ -7,6 +7,11 @@ All changes happen in the template of `src/app/movie/movie-card/movie-card.compo
 Refresh the app (with / without cache - you should try both). 
 Also see how the app behaves when throttling is enabled.
 
+> [!NOTE]
+> Comment out the LCP image preload from the [preload exercise](network-resource-hints-preload-prefetch.md) in
+> `src/index.html` while you measure this one. The preload already loads the LCP poster early, so LCP won't move —
+> only the number of downloaded posters will.
+
 If you investigate the network tab you should see all posters are requested at once — also the ones far below the visible area.
 
 ![lazyload-eager-images.png](./images/network/lazyload-eager-images.png)

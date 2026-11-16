@@ -300,6 +300,7 @@ Keep this chat open — you compare it with the next exercise.
 | No connection hints | Network track: connection setup to `api.themoviedb.org`, `image.tmdb.org`, Google Fonts | `index.html` has no `preconnect` |
 | Fonts | render-blocking Google Fonts CSS, Poppins arrives late and text re-renders | `index.html`: stylesheet in `<head>` |
 | Genres requested late | Network track: the genre request starts only after the app shell rendered | `AppShellComponent`: `genres$ = getGenres()` + `async` in the template |
+| Long task on reload | long task when the genres response arrives: the sidebar renders all genre links at once | every genre link renders a `WorkComponent` (`src/app/shared/work.component.ts`) that blocks the main thread — fixed in the prioritize exercise |
 
 **Watch out for** findings that look right but are not:
 

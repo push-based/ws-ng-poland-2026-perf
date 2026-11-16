@@ -74,6 +74,8 @@ import { MovieImagePipe } from '../movie-image.pipe';
       display: block;
       width: 100%;
       height: auto;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
       transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1) 0s;
       transform: scale(0.97);
     }
