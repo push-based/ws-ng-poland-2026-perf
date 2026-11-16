@@ -43,18 +43,22 @@ npm start
 
 [0. Project Setup](./exercises/project%20setup.md) · [0.1 Additional Project Setups](./exercises/additional-projects.md)
 
-### Block 1 & 2: Rendering Pipeline, Tooling & AI-Assisted Performance Engineering
+### Block 1: The Browser Rendering Pipeline
+
+_No exercises — make sure [Project Setup](./exercises/project%20setup.md) is done._
+
+### Block 2: Tooling & The JavaScript Event Loop
 
 - [Tooling: Performance Analysis & Flame Charts](./exercises/performance-tab-flame-charts.md)
-- [Tooling: Sources Tab](./exercises/sources%20tab.md)
+- [Tooling: JS Event Loop](./exercises/tooling-event-loop.md)
+- [Tooling: Sources Tab](./exercises/sources%20tab.md) _(if you have time)_
+
+### Block 3: Master the Single Thread & AI-Assisted Performance Engineering
+
+- [Scheduling: Split Work](./exercises/inp-scheduling-chunk-work.md)
+- [Scheduling: Prioritize Work](./exercises/scheduling-prioritize-work.md)
 - [AI: Chrome DevTools MCP](./exercises/ai-devtools-mcp.md)
 - [AI: Performance Skills](./exercises/ai-performance-skills.md)
-
-### Block 3: The JavaScript Event Loop
-
-- [Tooling: JS Event Loop](./exercises/tooling-event-loop.md)
-- [INP: Scheduling - chunk work](./exercises/inp-scheduling-chunk-work.md)
-- [Scheduling: Prioritize work](./exercises/scheduling-prioritize-work.md)
 
 ### Block 4: Network, CSS & DOM
 

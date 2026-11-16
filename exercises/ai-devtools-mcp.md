@@ -15,7 +15,15 @@ No agent? Pair up with your neighbour.
 > mkdir ~/devtools-mcp-playground && cd ~/devtools-mcp-playground
 > ```
 
-Serve the app first (in the repo, in its own terminal):
+The agent should find the problems you fixed in the scheduling exercises. Reset the app code to the state you cloned
+first (in the repo) — want to keep your fixes? Commit them on a branch before:
+`git switch -c scheduling && git commit -am "scheduling" && git switch main`.
+
+```bash
+git checkout origin/main -- src
+```
+
+Then serve the app (in the repo, in its own terminal):
 
 ```bash
 npm start
@@ -300,7 +308,7 @@ Keep this chat open — you compare it with the next exercise.
 | No connection hints | Network track: connection setup to `api.themoviedb.org`, `image.tmdb.org`, Google Fonts | `index.html` has no `preconnect` |
 | Fonts | render-blocking Google Fonts CSS, Poppins arrives late and text re-renders | `index.html`: stylesheet in `<head>` |
 | Genres requested late | Network track: the genre request starts only after the app shell rendered | `AppShellComponent`: `genres$ = getGenres()` + `async` in the template |
-| Long task on reload | long task when the genres response arrives: the sidebar renders all genre links at once | every genre link renders a `WorkComponent` (`src/app/shared/work.component.ts`) that blocks the main thread — fixed in the prioritize exercise |
+| Long task on reload | long task when the genres response arrives: the sidebar renders all genre links at once | every genre link renders a `WorkComponent` (`src/app/shared/work.component.ts`) that blocks the main thread — you fixed it in the prioritize exercise |
 
 **Watch out for** findings that look right but are not:
 

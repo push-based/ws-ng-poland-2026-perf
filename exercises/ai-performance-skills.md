@@ -175,7 +175,8 @@ Then record the flow again under the same conditions and compare INP before / af
 
 `TrackingService.trackEvent` (`src/app/shared/tracking.service.ts`) burns a 10-million-iteration loop
 inside the click handler. The real fix is to remove it — deferring it (`setTimeout` / `requestIdleCallback`) still
-blocks the main thread right after the click.
+blocks the main thread right after the click. If the work is needed, chunk it as in the
+[Split Work exercise](inp-scheduling-chunk-work.md#13-chunk-the-work).
 
 </details>
 

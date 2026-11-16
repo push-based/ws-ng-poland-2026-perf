@@ -28,11 +28,6 @@ You already found it in the flame chart exercise: every click in the sidebar cal
 `TrackingService.trackEvent` (`src/app/shared/tracking.service.ts`), a loop with 10 million iterations
 that runs inside the click handler.
 
-> [!NOTE]
-> If you removed the loop in the AI performance skills bonus, restore it first
-> (`git checkout -- src/app/shared/tracking.service.ts`) and make sure `AppShellComponent.trackNavigation`
-> still calls `trackEvent`.
-
 ### 1.1 Measure the interaction
 
 Select `4x slowdown` in the `CPU` throttling dropdown.
